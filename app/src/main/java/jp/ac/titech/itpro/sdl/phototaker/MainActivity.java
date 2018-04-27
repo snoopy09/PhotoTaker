@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.provider.MediaStore;
+import android.net.Uri;
+
 
 import java.util.List;
 
@@ -55,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
         switch (reqCode) {
         case REQ_PHOTO:
             if (resCode == RESULT_OK) {
-                photoImg = (Bitmap) data.getExtras().get("data");
+                Uri uri = data.getData();
+                try {
+                    photoImg = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // photoImg = (Bitmap) data.getExtras().get("data");
                 // TODO: You should implement the code that retrieve a bitmap image
             }
             break;
